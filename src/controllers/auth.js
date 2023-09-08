@@ -1,4 +1,5 @@
 const User = require('../models/user')
+const Form = require('../models/form')
 
 // Authorizations procession here
 
@@ -72,7 +73,7 @@ const register = async (req, res = response) => {
           //  token,
         // })
 
-        // Ver el tema de la encripcion despues, primero testear
+        // Ver el tema de la encripcion
 
         return res.status(201).json({
             success: true,
@@ -89,7 +90,53 @@ const register = async (req, res = response) => {
     }
 }
 
+//This function is for the form (planillas) function
+
+const uploadform async (req, res = response) => {
+
+    const { email, password, additionalData } = req.body;
+
+
+    //Username and Password given are compared in the database
+
+    try {
+
+        const user = await User.findOne({ email, password });
+
+        if (!user) {
+            console.log(`user haves invalid credentials`);
+            console.log(user)
+        }
+
+        console.log(`user compared successfully`);
+
+    } catch (error) {
+        console.log(`An error has ocurred`);
+        return res.status(500).json({
+            success: false,
+            message: 'An error occurred'
+        });
+    }
+
+    //If username given exists, either a new form is created for them or their already existing one is updated
+
+    console.log('user exists in the database');
+
+    //NO SOBRESCRIBIR NAME. solo password y additional data (esta ultima va a tener mas de 1 item )
+
+
+}
+
+
+
+
+
+
+
+
+//Functions export
 module.exports = {
     login,
-    register
+    register,
+    uploadform
 }

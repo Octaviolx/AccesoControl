@@ -1,6 +1,8 @@
-// Define a schema and model for users
+// Define a schema and model
 
 const { Schema, model } = require("mongoose");
+
+//User model
 
 const UserSchema = Schema({
   email: {
@@ -13,4 +15,6 @@ const UserSchema = Schema({
   }
 });
 
-module.exports = model('user', UserSchema) //
+//Models exportation
+
+module.exports = model('user', UserSchema) 

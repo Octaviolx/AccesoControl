@@ -16,3 +16,9 @@ router.post('/signin', login);
 const { register } = require('../controllers/auth')
 
 router.post('/register', register);
+
+// Forms function routing
+
+const { uploadform } = require('../controllers/auth')
+
+router.post('/uploadform', uploadform);
