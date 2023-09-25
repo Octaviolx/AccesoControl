@@ -4,8 +4,8 @@ const { Schema, model } = require("mongoose");
 
 //Form model
 
-const FormSchema = new mongoose.Schema({
-    name: String,
+const FormSchema = Schema({
+    email: String,
     password: String,
     additionalData: String,
   });

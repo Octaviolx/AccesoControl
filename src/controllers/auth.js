@@ -1,5 +1,6 @@
 const User = require('../models/user')
 const Form = require('../models/form')
+const Planilla = require('../models/planilla')
 
 // Authorizations procession here
 
@@ -92,7 +93,7 @@ const register = async (req, res = response) => {
 
 //This function is for the form (planillas) function
 
-const uploadform async (req, res = response) => {
+const uploadform = async (req, res = response) => {
 
     const { email, password, additionalData } = req.body;
 
@@ -124,8 +125,34 @@ const uploadform async (req, res = response) => {
 
     //NO SOBRESCRIBIR NAME. solo password y additional data (esta ultima va a tener mas de 1 item )
 
+    try {
+        // Check if a planilla with the same user already exists
+        const existingPlanilla = await Planilla.findOne({ email });
+    
+        if (existingPlanilla) {
+          // Update the existing planilla with new data
+          existingPlanilla.password = password;
+          existingPlanilla.additionalData = additionalData;
+          await existingPlanilla.save();
+    
+          res.status(200).json({ success: true, message: 'Data updated successfully' });
+        } else {
 
-}
+            //"Planilla" is created in models
+
+            const newPlanilla = Planilla; // mal definido (ver la logica de las funciones. Se desfaso todo cuando quisiste dejar planilla aparte.)
+            // Tenes dos opciones, o dejas planilla como estaba antes, o buscas la forma de hacerlo andar con las cosas separadas (lo que quedaria mejor me gustaria mas)
+
+          await newPlanilla.save(); //await newPlanilla.save();
+          res.status(200).json({ success: true, message: 'Data stored successfully' });
+        }
+      } catch (error) {
+        console.error('Error processing data:', error);
+        res.status(500).json({ success: false, message: 'Error processing data' });
+      }
+    };
+
+
 
 
 
