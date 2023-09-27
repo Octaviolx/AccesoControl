@@ -1,3 +1,5 @@
+/**  
+
 // Define a schema and model
 
 const { Schema, model } = require("mongoose");
@@ -12,4 +14,4 @@ const PlanillaSchema = Schema({
 
   //Models exportation
 
-module.exports = model('planilla', PlanillaSchema) 
+module.exports = model('planilla', PlanillaSchema) */

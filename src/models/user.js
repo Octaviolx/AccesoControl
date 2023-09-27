@@ -12,6 +12,10 @@ const UserSchema = Schema({
   password: {
     type: String,
     required: true,
+  },
+   additionalData: {
+    type: String,
+    required: true,
   }
 });
 

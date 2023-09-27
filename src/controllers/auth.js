@@ -91,7 +91,10 @@ const register = async (req, res = response) => {
     }
 }
 
-//This function is for the form (planillas) function
+//This function is for the form (planillas) function. NO, this function updates de user section.
+
+// Sobrescrbir user schema con planilla schema. Cuando el usuario mete datos por primera vez, aditional data y password
+//tienen "1234" y "default" de datos predeterminados
 
 const uploadform = async (req, res = response) => {
 
@@ -102,7 +105,7 @@ const uploadform = async (req, res = response) => {
 
     try {
 
-        const user = await User.findOne({ email, password });
+        const user = await User.findOne({ email }); //email and password was here
 
         if (!user) {
             console.log(`user haves invalid credentials`);
@@ -127,7 +130,7 @@ const uploadform = async (req, res = response) => {
 
     try {
         // Check if a planilla with the same user already exists
-        const existingPlanilla = await Planilla.findOne({ email });
+        const existingPlanilla = await User.findOne({ email });
     
         if (existingPlanilla) {
           // Update the existing planilla with new data
@@ -140,9 +143,13 @@ const uploadform = async (req, res = response) => {
 
             //"Planilla" is created in models
 
-            const newPlanilla = Planilla; // mal definido (ver la logica de las funciones. Se desfaso todo cuando quisiste dejar planilla aparte.)
+            //const newPlanilla = Planilla; // mal definido (ver la logica de las funciones. Se desfaso todo cuando quisiste dejar planilla aparte.)
             // Tenes dos opciones, o dejas planilla como estaba antes, o buscas la forma de hacerlo andar con las cosas separadas (lo que quedaria mejor me gustaria mas)
-
+            const newPlanilla = new User({
+                email,
+                password,
+                additionalData,});
+            
           await newPlanilla.save(); //await newPlanilla.save();
           res.status(200).json({ success: true, message: 'Data stored successfully' });
         }
@@ -151,14 +158,7 @@ const uploadform = async (req, res = response) => {
         res.status(500).json({ success: false, message: 'Error processing data' });
       }
     };
-
-
-
-
-
-
-
-
+ 
 
 
 //Functions export
